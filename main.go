@@ -34,6 +34,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	// ensure connection close when function returns
 	defer ws.Close()
 	clients[ws] = true
@@ -123,8 +124,10 @@ func main() {
 
 	port := os.Getenv("PORT")
 
-	redisURL := os.Getenv("REDIS_URL")
-	opt, err := redis.ParseURL(redisURL)
+	redisHost := os.Getenv("REDIS_HOST")
+	redisPort := os.Getenv("REDIS_PORT")
+
+	opt, err := redis.ParseURL("redis://" + redisHost + ":" + redisPort)
 	if err != nil {
 		panic(err)
 	}
