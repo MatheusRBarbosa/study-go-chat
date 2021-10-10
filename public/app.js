@@ -13,7 +13,7 @@ function addEventListenerToWebsocket(websocket, room) {
     let data = JSON.parse(e.data);
     let chatContent = `<p><strong>${data.username}</strong>: ${data.text}</p>`;
 
-    room.append(chatContent);
+    room.innerHTML += chatContent;
     room.scrollTop = room.scrollHeight; // Auto scroll to the bottom
   });
 }
