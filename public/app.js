@@ -1,7 +1,14 @@
 window.addEventListener('DOMContentLoaded', (_) => {
   let websocket = new WebSocket("ws://" + window.location.host + "/websocket");
   let room = document.getElementById("chat-text");
+  let form = document.getElementById("input-form");
 
+  addEventListenerToWebsocket(websocket, room);
+  addEventListenerToForm(websocket, form);
+  
+});
+
+function addEventListenerToWebsocket(websocket, room) {
   websocket.addEventListener("message", function (e) {
     let data = JSON.parse(e.data);
     let chatContent = `<p><strong>${data.username}</strong>: ${data.text}</p>`;
@@ -9,8 +16,9 @@ window.addEventListener('DOMContentLoaded', (_) => {
     room.append(chatContent);
     room.scrollTop = room.scrollHeight; // Auto scroll to the bottom
   });
+}
 
-  let form = document.getElementById("input-form");
+function addEventListenerToForm(websocket, form) {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     let username = document.getElementById("input-username");
@@ -23,4 +31,4 @@ window.addEventListener('DOMContentLoaded', (_) => {
     );
     text.value = "";
   });
-});
+}
